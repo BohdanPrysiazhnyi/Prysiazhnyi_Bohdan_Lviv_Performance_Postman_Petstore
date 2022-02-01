@@ -1,0 +1,1144 @@
+{
+	"info": {
+		"_postman_id": "f4ee14a5-b734-438a-b6ee-53f407755295",
+		"name": "Swagger Petstore",
+		"description": "This is a sample server Petstore server.  You can find out more about Swagger at [http://swagger.io](http://swagger.io) or on [irc.freenode.net, #swagger](http://swagger.io/irc/).  For this sample, you can use the api key `special-key` to test the authorization filters.\n\nContact Support:\n Email: apiteam@swagger.io",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "{username}",
+					"item": [
+						{
+							"name": "Create user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonData = JSON.parse(pm.request.body);\r",
+											"console.log(jsonData);\r",
+											"pm.globals.set(\"id\", jsonData.id);\r",
+											"console.log(jsonData);\r",
+											"pm.globals.set(\"userName\", jsonData.username);\r",
+											"pm.globals.set(\"firstName\", jsonData.firstName);\r",
+											"pm.globals.set(\"lastName\", jsonData.lastName);\r",
+											"pm.globals.set(\"email\", jsonData.email);\r",
+											"pm.globals.set(\"password\", jsonData.password);\r",
+											"pm.globals.set(\"phone\", jsonData.phone);\r",
+											"pm.globals.set(\"userStatus\", jsonData.userStatus);\r",
+											"pm.test(\"Response time is less than 600ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(600);\r",
+											"});\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    var responseData = pm.response.json();\r",
+											"    pm.expect(responseData.message).to.contain(pm.globals.get(\"id\"));\r",
+											"});\r",
+											"\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"      \"code\": {\r",
+											"        \"type\": \"number\"\r",
+											"      },\r",
+											"      \"type\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"     \r",
+											"      \"message\": {\r",
+											"        \"type\": \"string\"\r",
+											"         }\r",
+											"      }\r",
+											"    }\r",
+											"console.log(schema);\r",
+											"pm.test(\"Validate schema\", () => {\r",
+											"pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n  \"id\": {{$randomInt}},\n  \"username\": \"{{$randomUserName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user"
+									]
+								},
+								"description": "This can only be done by the logged in user."
+							},
+							"response": [
+								{
+									"name": "successful operation",
+									"originalRequest": {
+										"method": "POST",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": -85511347,\n    \"username\": \"ex ea\",\n    \"firstName\": \"labore Excepteur officia ad\",\n    \"lastName\": \"officia eu sint ut\",\n    \"email\": \"ut non\",\n    \"password\": \"amet\",\n    \"phone\": \"voluptate tempor esse exercitation\",\n    \"userStatus\": -78527230\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user"
+											]
+										}
+									},
+									"status": "Internal Server Error",
+									"code": 500,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Get user by user name",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"pm.test(\"Response time is less than 500ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(500);\r",
+											"});\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.firstName).to.eql(pm.globals.get(\"firstName\"));\r",
+											"});\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.lastName).to.eql(pm.globals.get(\"lastName\"));\r",
+											"});\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.email).to.eql(pm.globals.get(\"email\"));\r",
+											"});\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.phone).to.eql(pm.globals.get(\"phone\"));\r",
+											"});\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.id).to.eql(pm.globals.get(\"id\"));\r",
+											"});\r",
+											"pm.test(\"Person is {{username}}\", () => {\r",
+											"  const responseJson = pm.response.json();\r",
+											"  pm.expect(responseJson.username).to.eql(pm.globals.get(\"userName\"));\r",
+											"  pm.expect(responseJson.id).to.eql(pm.globals.get(\"id\"));\r",
+											"});\r",
+											"var schema = {\r",
+											"    \"properties\": {\r",
+											"      \"id\": {\r",
+											"        \"type\": \"number\"\r",
+											"      },\r",
+											"      \"username\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"     \r",
+											"      \"firstName\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"lastName\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"email\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"password\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"phone\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"      \"userStatus\": {\r",
+											"        \"type\": \"number\"\r",
+											"      }\r",
+											"    }\r",
+											"  }\r",
+											"\r",
+											"\r",
+											"pm.test(\"Validate schema\", () => {\r",
+											"pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/:username",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "{{userName}}",
+											"description": "(Required) The name that needs to be fetched. Use user1 for testing. "
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "successful operation",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "lab",
+													"description": "(Required) The name that needs to be fetched. Use user1 for testing. "
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n \"id\": -85511347,\n \"username\": \"ex ea\",\n \"firstName\": \"labore Excepteur officia ad\",\n \"lastName\": \"officia eu sint ut\",\n \"email\": \"ut non\",\n \"password\": \"amet\",\n \"phone\": \"voluptate tempor esse exercitation\",\n \"userStatus\": -78527230\n}"
+								},
+								{
+									"name": "Invalid username supplied",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "lab",
+													"description": "(Required) The name that needs to be fetched. Use user1 for testing. "
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "lab",
+													"description": "(Required) The name that needs to be fetched. Use user1 for testing. "
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Logs user into the system",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"\r",
+											"var jsonResponse = pm.response.json();\r",
+											"\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonResponse.message).to.include(\"logged in user session:\");\r",
+											"});\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"      \"code\": {\r",
+											"        \"type\": \"number\"\r",
+											"      },\r",
+											"      \"type\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"     \r",
+											"      \"message\": {\r",
+											"        \"type\": \"string\"\r",
+											"         }\r",
+											"      }\r",
+											"    }\r",
+											"\r",
+											"pm.test(\"Validate schema\", () => {\r",
+											"pm.response.to.have.jsonSchema(schema);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/login?username={{userName}}&password={{password}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									],
+									"query": [
+										{
+											"key": "username",
+											"value": "{{userName}}",
+											"description": "(Required) The user name for login"
+										},
+										{
+											"key": "password",
+											"value": "{{password}}",
+											"description": "(Required) The password for login in clear text"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "successful operation",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/login?username=lab&password=lab",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"login"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "lab"
+												},
+												{
+													"key": "password",
+													"value": "lab"
+												}
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "X-Expires-After",
+											"value": "1965-11-02T05:44:21.588Z",
+											"description": "date in UTC when token expires"
+										},
+										{
+											"key": "X-Rate-Limit",
+											"value": "-32541643",
+											"description": "calls per hour allowed by the user"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "\"lab\""
+								},
+								{
+									"name": "Invalid username/password supplied",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/login?username=lab&password=lab",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												"login"
+											],
+											"query": [
+												{
+													"key": "username",
+													"value": "lab"
+												},
+												{
+													"key": "password",
+													"value": "lab"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Updated user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"      \"code\": {\r",
+											"        \"type\": \"number\"\r",
+											"      },\r",
+											"      \"type\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"     \r",
+											"      \"message\": {\r",
+											"        \"type\": \"string\"\r",
+											"         }\r",
+											"      }\r",
+											"    }\r",
+											"\r",
+											"pm.test(\"Validate schema\", () => {\r",
+											"pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"var jsonData  = pm.response.json();\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.message).to.contain(pm.globals.get(\"id\"));\r",
+											"});\r",
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"pm.test(\"Response time is less than 200ms\", function () {\r",
+											"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+											"});"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Content-Type",
+										"value": "application/json"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"id\": {{id}},\n    \"username\": \"{{userName}}\",\n    \"firstName\": \"{{firstName}} + {{$randomAdjective}}\",\n    \"lastName\": \"{{lastName}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"phone\": \"{{phone}}\",\n    \"userStatus\": {{userStatus}}\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/:username?={{userName}}&lastName=zfsdfsdf",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":username"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "{{userName}}"
+										},
+										{
+											"key": "lastName",
+											"value": "zfsdfsdf"
+										}
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": null
+										}
+									]
+								},
+								"description": "This can only be done by the logged in user."
+							},
+							"response": [
+								{
+									"name": "Invalid user supplied",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 80754536,\n    \"username\": \"sit officia fugiat\",\n    \"firstName\": \"Excepteur nostrud a\",\n    \"lastName\": \"eu mollit quis proident\",\n    \"email\": \"proident eiusmod\",\n    \"password\": \"Duis deserunt\",\n    \"phone\": \"dolor in\",\n    \"userStatus\": -85319576\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "ex ut eu fugiat",
+													"description": "(Required) name that need to be updated"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "PUT",
+										"header": [],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n    \"id\": 80754536,\n    \"username\": \"sit officia fugiat\",\n    \"firstName\": \"Excepteur nostrud a\",\n    \"lastName\": \"eu mollit quis proident\",\n    \"email\": \"proident eiusmod\",\n    \"password\": \"Duis deserunt\",\n    \"phone\": \"dolor in\",\n    \"userStatus\": -85319576\n}",
+											"options": {
+												"raw": {
+													"language": "json"
+												}
+											}
+										},
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "ex ut eu fugiat",
+													"description": "(Required) name that need to be updated"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						},
+						{
+							"name": "Delete user",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"exec": [
+											"pm.test(\"Status code is 200\", function () {\r",
+											"    pm.response.to.have.status(200);\r",
+											"});\r",
+											"var schema = {\r",
+											"  \"type\": \"object\",\r",
+											"  \"properties\": {\r",
+											"      \"code\": {\r",
+											"        \"type\": \"number\"\r",
+											"      },\r",
+											"      \"type\": {\r",
+											"        \"type\": \"string\"\r",
+											"      },\r",
+											"     \r",
+											"      \"message\": {\r",
+											"        \"type\": \"string\"\r",
+											"         }\r",
+											"      }\r",
+											"    }\r",
+											"\r",
+											"pm.test(\"Validate schema\", () => {\r",
+											"pm.response.to.have.jsonSchema(schema);\r",
+											"});\r",
+											"\r",
+											"var jsonData = pm.response.json();\r",
+											"pm.test(\"Body matches string\", function () {\r",
+											"    pm.expect(jsonData.message).to.eql(pm.globals.get(\"userName\"));\r",
+											"});\r",
+											""
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/:username",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										":username"
+									],
+									"variable": [
+										{
+											"key": "username",
+											"value": "{{userName}}",
+											"description": "(Required) The name that needs to be deleted"
+										}
+									]
+								},
+								"description": "This can only be done by the logged in user."
+							},
+							"response": [
+								{
+									"name": "Invalid username supplied",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "lab",
+													"description": "(Required) The name that needs to be deleted"
+												}
+											]
+										}
+									},
+									"status": "Bad Request",
+									"code": 400,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								},
+								{
+									"name": "User not found",
+									"originalRequest": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{baseUrl}}/user/:username",
+											"host": [
+												"{{baseUrl}}"
+											],
+											"path": [
+												"user",
+												":username"
+											],
+											"variable": [
+												{
+													"key": "username",
+													"value": "lab",
+													"description": "(Required) The name that needs to be deleted"
+												}
+											]
+										}
+									},
+									"status": "Not Found",
+									"code": 404,
+									"_postman_previewlanguage": "text",
+									"header": [
+										{
+											"key": "Content-Type",
+											"value": "text/plain"
+										}
+									],
+									"cookie": [],
+									"body": ""
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Creates list of users with given input array",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 600ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201, 202]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(pm.request.body);\r",
+									"console.log(jsonData);\r",
+									"var respond = pm.response.json();\r",
+									"console.log(respond);\r",
+									"var schema = {\r",
+									"    \"properties\": {\r",
+									"      \"id\": {\r",
+									"        \"type\": \"number\"\r",
+									"      },\r",
+									"      \"username\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"     \r",
+									"      \"firstName\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"lastName\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"email\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"password\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"phone\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"userStatus\": {\r",
+									"        \"type\": \"number\"\r",
+									"      }\r",
+									"    }\r",
+									"  }\r",
+									"console.log(schema);\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.request.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n  \"id\": {{$randomInt}},\n  \"username\": \"{{$randomUserName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n},\n    {\n  \"id\": {{$randomInt}},\n  \"username\": \"{{$randomUserName}}\",\n  \"firstName\": \"{{$randomFirstName}}\",\n  \"lastName\": \"{{$randomLastName}}\",\n  \"email\": \"{{$randomEmail}}\",\n  \"password\": \"{{$randomPassword}}\",\n  \"phone\": \"{{$randomPhoneNumber}}\",\n  \"userStatus\": {{$randomInt}}\n}\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/createWithArray",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"createWithArray"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successful operation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/createWithArray",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"createWithArray"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Creates list of users with given input array",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response time is less than 600ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});\r",
+									"pm.test(\"Successful POST request\", function () {\r",
+									"    pm.expect(pm.response.code).to.be.oneOf([200,201, 202]);\r",
+									"});\r",
+									"\r",
+									"var jsonData = JSON.parse(pm.request.body);\r",
+									"console.log(jsonData);\r",
+									"var respond = pm.response.json();\r",
+									"console.log(respond);\r",
+									"var schema = {\r",
+									"    \"properties\": {\r",
+									"      \"id\": {\r",
+									"        \"type\": \"number\"\r",
+									"      },\r",
+									"      \"username\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"     \r",
+									"      \"firstName\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"lastName\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"email\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"password\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"phone\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"      \"userStatus\": {\r",
+									"        \"type\": \"number\"\r",
+									"      }\r",
+									"    }\r",
+									"  }\r",
+									"console.log(schema);\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.request.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "[\n    {\n        \"id\": -79118907,\n        \"username\": \"dolore minim cillum\",\n        \"firstName\": \"enim ut non adipisicing\",\n        \"lastName\": \"laborum\",\n        \"email\": \"aute\",\n        \"password\": \"enim amet et velit\",\n        \"phone\": \"Duis sint Ut aliqua\",\n        \"userStatus\": -47940117\n    },\n    {\n        \"id\": 44032127,\n        \"username\": \"velit in Ut sunt ut\",\n        \"firstName\": \"minim cillum\",\n        \"lastName\": \"Duis tempo\",\n        \"email\": \"mollit culpa in\",\n        \"password\": \"Lorem mollit nostrud labore ipsum\",\n        \"phone\": \"anim eiusmod ea commodo\",\n        \"userStatus\": 50113331\n    }\n]",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/user/createWithList",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"createWithList"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successful operation",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/createWithList",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"createWithList"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				},
+				{
+					"name": "Logs out current logged in user session",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var jsonResponse = pm.response.json();\r",
+									"\r",
+									"pm.test(\"Body matches string\", function () {\r",
+									"    pm.expect(jsonResponse.message).to.include(\"ok\");\r",
+									"});\r",
+									"var schema = {\r",
+									"  \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"      \"code\": {\r",
+									"        \"type\": \"number\"\r",
+									"      },\r",
+									"      \"type\": {\r",
+									"        \"type\": \"string\"\r",
+									"      },\r",
+									"     \r",
+									"      \"message\": {\r",
+									"        \"type\": \"string\"\r",
+									"         }\r",
+									"      }\r",
+									"    }\r",
+									"\r",
+									"pm.test(\"Validate schema\", () => {\r",
+									"pm.response.to.have.jsonSchema(schema);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{baseUrl}}/user/logout",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"user",
+								"logout"
+							]
+						}
+					},
+					"response": [
+						{
+							"name": "successful operation",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/logout",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"logout"
+									]
+								}
+							},
+							"status": "Internal Server Error",
+							"code": 500,
+							"_postman_previewlanguage": "text",
+							"header": [
+								{
+									"key": "Content-Type",
+									"value": "text/plain"
+								}
+							],
+							"cookie": [],
+							"body": ""
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "baseUrl",
+			"value": "https://petstore.swagger.io/v2",
+			"type": "string"
+		}
+	]
+}
